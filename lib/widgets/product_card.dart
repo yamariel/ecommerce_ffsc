@@ -39,21 +39,28 @@ class ProductCard extends StatelessWidget {
                   ),
                 ),
               ),
-                
+              const SizedBox(height: 5),
               Text(product.name, style: TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 10,),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text("${product.price}€"),
+                  Text("${product.price}€", style: TextStyle(fontWeight: FontWeight.bold)),
                   Row(
                     children: [
-                      Text("${product.rating}"), 
-                      Icon(Icons.star, color: Colors.yellow,)
+                      const Icon(Icons.star, color: Colors.amber, size: 25),
+                      Text(
+                        product.rating.toString(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
                     ],
                   ),
                 ],
               ),
+              const SizedBox(height: 5),
             ],
           ),
         ),
