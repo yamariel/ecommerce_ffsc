@@ -10,18 +10,18 @@ class CartNotifier extends Notifier<List<CartItem>> {
   List<CartItem> build() => [];
 
   //ajouter un produit dans le panier
-  void addProduct(Product product) {
+  void addProduct(Product product, {int quantityToAdd = 1}) {
     final productExists = state.any((item) => item.product.id == product.id);
 
     if (productExists) {
       state = state.map((item) {
         if (item.product.id == product.id) {
-          return item.copyWith(quantity: item.quantity + 1);
+          return item.copyWith(quantity: item.quantity + quantityToAdd);
         }
         return item;
       }).toList();
     } else {
-      state = [...state, CartItem(product: product, quantity: 1)];
+      state = [...state, CartItem(product: product, quantity: quantityToAdd)];
     }
   }
 
@@ -43,9 +43,30 @@ class CartNotifier extends Notifier<List<CartItem>> {
       }).toList();
     }
   }
-
-  //provider que l'interface va écouter
-  final cartProvider = NotifierProvider<CartNotifier, List<CartItem>>(
-    () => CartNotifier(),
-  );
 }
+
+//provider que l'interface va écouter
+// final cartProvider = NotifierProvider<CartNotifier, List<CartItem>>(
+//   () => CartNotifier(),
+// );
+
+// //calcul le prix des articles dans le panier
+// final cartTotalProvider = Provider<double>((ref) {
+//   final cartItems = ref.watch(cartProvider);
+//   double total = 0.0;
+
+//   for (var cartItem in cartItems) {
+//     total = cartItem.quantity * cartItem.product.price;
+//   }
+//   return total;
+// });
+
+// //calcul le nombre d'élément dans le panier
+// final cartCountProvider = Provider<int>((ref) {
+//   final cartItems = ref.watch(cartProvider);
+//   int count = 0;
+//   for (var cartItem in cartItems) {
+//     count += cartItem.quantity;
+//   }
+//   return count;
+// });
