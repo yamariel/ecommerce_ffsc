@@ -45,28 +45,28 @@ class CartNotifier extends Notifier<List<CartItem>> {
   }
 }
 
-//provider que l'interface va écouter
-// final cartProvider = NotifierProvider<CartNotifier, List<CartItem>>(
-//   () => CartNotifier(),
-// );
+// provider que l'interface va écouter
+final cartProvider = NotifierProvider<CartNotifier, List<CartItem>>(
+  () => CartNotifier(),
+);
 
-// //calcul le prix des articles dans le panier
-// final cartTotalProvider = Provider<double>((ref) {
-//   final cartItems = ref.watch(cartProvider);
-//   double total = 0.0;
+//calcul le prix des articles dans le panier
+final cartTotalProvider = Provider<double>((ref) {
+  final cartItems = ref.watch(cartProvider);
+  double total = 0.0;
 
-//   for (var cartItem in cartItems) {
-//     total = cartItem.quantity * cartItem.product.price;
-//   }
-//   return total;
-// });
+  for (var cartItem in cartItems) {
+    total = cartItem.quantity * cartItem.product.price;
+  }
+  return total;
+});
 
-// //calcul le nombre d'élément dans le panier
-// final cartCountProvider = Provider<int>((ref) {
-//   final cartItems = ref.watch(cartProvider);
-//   int count = 0;
-//   for (var cartItem in cartItems) {
-//     count += cartItem.quantity;
-//   }
-//   return count;
-// });
+//calcul le nombre d'élément dans le panier
+final cartCountProvider = Provider<int>((ref) {
+  final cartItems = ref.watch(cartProvider);
+  int count = 0;
+  for (var cartItem in cartItems) {
+    count += cartItem.quantity;
+  }
+  return count;
+});
