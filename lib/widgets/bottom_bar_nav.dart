@@ -11,11 +11,12 @@ class Mybottombarnav extends StatelessWidget {
         onTap: onTap,
         selectedItemColor: Colors.deepPurple,
         unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Accueil"),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: "Mon Panier"),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Mes Favoris"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Mon Profil"),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: "Panier"),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Favoris"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profil"),
         ]
       );
   }
