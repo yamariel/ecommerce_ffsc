@@ -2,17 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/product.dart';
+import '../providers/cart_provider.dart';
 import '../widgets/quantity_button.dart';
 
-class ProductDetailScreen extends ConsumerWidget {
+class ProductDetailScreen extends ConsumerStatefulWidget {
   final Product product;
   const ProductDetailScreen({super.key, required this.product});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ProductDetailScreen> createState() => _ProductDetailScreenState();
+}
+
+class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
+  int _quantiteSelectionnee = 1;
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          product.name,
+          widget.product.name,
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -34,9 +42,9 @@ class ProductDetailScreen extends ConsumerWidget {
                     color: Colors.red,
                     shape: BoxShape.circle,
                   ),
-                  child: const Text(
-                    "0",
-                    style: TextStyle(
+                  child: Text(
+                    "${ref.watch(cartCountProvider)}",
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
@@ -58,9 +66,9 @@ class ProductDetailScreen extends ConsumerWidget {
               height: 300,
               color: Colors.white,
               child: Hero(
-                tag: product.id,
+                tag: widget.product.id,
                 child: Image.asset(
-                  product.image,
+                  widget.product.image,
                   width: double.infinity,
                   errorBuilder: (context, error, stackTrace) {
                     return SizedBox(
@@ -83,7 +91,7 @@ class ProductDetailScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    product.category.toUpperCase(),
+                    widget.product.category.toUpperCase(),
                     style: TextStyle(
                       color: Colors.deepPurple,
                       fontWeight: FontWeight.bold,
@@ -96,7 +104,7 @@ class ProductDetailScreen extends ConsumerWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          product.name,
+                          widget.product.name,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 30,
@@ -137,7 +145,7 @@ class ProductDetailScreen extends ConsumerWidget {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              product.rating.toString(),
+                              widget.product.rating.toString(),
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
@@ -148,7 +156,7 @@ class ProductDetailScreen extends ConsumerWidget {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        product.rating > 4.5 ? 'Excellent' : 'Bon',
+                        widget.product.rating > 4.5 ? 'Excellent' : 'Bon',
                         style: TextStyle(
                           color: Colors.deepPurple,
                           fontSize: 16,
@@ -159,7 +167,7 @@ class ProductDetailScreen extends ConsumerWidget {
                   const SizedBox(height: 20),
                   //prix
                   Text(
-                    "${product.price} €",
+                    "${widget.product.price} €",
                     style: TextStyle(
                       color: Colors.deepPurple,
                       fontWeight: FontWeight.bold,
@@ -174,7 +182,7 @@ class ProductDetailScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    product.description,
+                    widget.product.description,
                     style: TextStyle(
                       fontSize: 16,
                       height: 1.6,
@@ -189,15 +197,21 @@ class ProductDetailScreen extends ConsumerWidget {
                         "Quantité",
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                       ),
-                      QuantityButton(icon: Icons.add, onPressed: (){},),
-                       const Text(
-                        "1",
+                      QuantityButton(icon: Icons.add, onPressed: (){setState(() {
+                        _quantiteSelectionnee++;
+                      });},),
+                       Text(
+                        _quantiteSelectionnee.toString(),
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      QuantityButton(icon: Icons.remove, onPressed: (){},),
+                      QuantityButton(icon: Icons.remove, onPressed: (){setState(() {
+                        if (_quantiteSelectionnee > 1) {
+                          _quantiteSelectionnee--;
+                        };
+                      });},),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -207,7 +221,17 @@ class ProductDetailScreen extends ConsumerWidget {
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        ref.read(cartProvider.notifier).addProduct(widget.product, quantityToAdd: _quantiteSelectionnee);
+                        ScaffoldMessenger.of(context)
+                        .showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.green,
+                            content: Text("${widget.product.name} à été ajouter au panier"),
+                            duration: Duration(seconds: 3),
+                          )
+                          );
+                      },
                       label: const Text(
                         "Ajouter au panier",
                         style: TextStyle(
