@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/screens/cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,9 +28,17 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
         actions: [
           Stack(
             children: [
-              const Padding(
-                padding: EdgeInsets.only(right: 18),
-                child: Icon(Icons.shopping_cart_outlined),
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const CartScreen()),
+                    );
+                  },
+                  icon: const Icon(Icons.shopping_cart_outlined),
+                ),
               ),
 
               Positioned(
