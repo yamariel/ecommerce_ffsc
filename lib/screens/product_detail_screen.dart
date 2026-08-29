@@ -10,7 +10,8 @@ class ProductDetailScreen extends ConsumerStatefulWidget {
   const ProductDetailScreen({super.key, required this.product});
 
   @override
-  ConsumerState<ProductDetailScreen> createState() => _ProductDetailScreenState();
+  ConsumerState<ProductDetailScreen> createState() =>
+      _ProductDetailScreenState();
 }
 
 class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
@@ -195,23 +196,36 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                     children: [
                       Text(
                         "Quantité",
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
                       ),
-                      QuantityButton(icon: Icons.add, onPressed: (){setState(() {
-                        _quantiteSelectionnee++;
-                      });},),
-                       Text(
+                      QuantityButton(
+                        icon: Icons.add,
+                        onPressed: () {
+                          setState(() {
+                            _quantiteSelectionnee++;
+                          });
+                        }, heigth: 50, width: 50,
+                      ),
+                      Text(
                         _quantiteSelectionnee.toString(),
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      QuantityButton(icon: Icons.remove, onPressed: (){setState(() {
-                        if (_quantiteSelectionnee > 1) {
-                          _quantiteSelectionnee--;
-                        };
-                      });},),
+                      QuantityButton(
+                        icon: Icons.remove,
+                        onPressed: () {
+                          setState(() {
+                            if (_quantiteSelectionnee > 1) {
+                              _quantiteSelectionnee--;
+                            }
+                          });
+                        }, heigth: 50, width: 50,
+                      ),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -222,15 +236,21 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                     height: 50,
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        ref.read(cartProvider.notifier).addProduct(widget.product, quantityToAdd: _quantiteSelectionnee);
-                        ScaffoldMessenger.of(context)
-                        .showSnackBar(
+                        ref
+                            .read(cartProvider.notifier)
+                            .addProduct(
+                              widget.product,
+                              quantityToAdd: _quantiteSelectionnee,
+                            );
+                        ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             backgroundColor: Colors.green,
-                            content: Text("${widget.product.name} à été ajouter au panier"),
+                            content: Text(
+                              "${widget.product.name} à été ajouter au panier",
+                            ),
                             duration: Duration(seconds: 3),
-                          )
-                          );
+                          ),
+                        );
                       },
                       label: const Text(
                         "Ajouter au panier",
