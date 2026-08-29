@@ -1,6 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../repositories/favorite_repository.dart';
 
+import '../models/product.dart'; 
+import 'product_provider.dart'; 
+
 final favoriteRepositoryProvider = Provider<FavoriteRepository>((ref) => FavoriteRepository());
 
 
@@ -31,7 +34,16 @@ class FavoriteNotifier extends Notifier<List<int>> {
     //sauvegarde les favoris
     ref.read(favoriteRepositoryProvider).saveFavorites(state);
   }
-
 }
 
 final favoriteProvider = NotifierProvider<FavoriteNotifier, List<int>>(() => FavoriteNotifier());
+
+
+final favoriteProductsListProvider = FutureProvider<List<Product>>((ref) async {
+
+  final allProducts = await ref.watch(productsProvider.future);
+  
+  final favoriteIds = ref.watch(favoriteProvider);
+  
+  return allProducts.where((product) => favoriteIds.contains(product.id)).toList();
+});
