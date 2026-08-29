@@ -5,6 +5,7 @@ import '../models/product.dart';
 import '../providers/cart_provider.dart';
 import '../widgets/quantity_button.dart';
 import '../screens/cart_screen.dart';
+import '../providers/favorite_provider.dart';
 
 class ProductDetailScreen extends ConsumerStatefulWidget {
   final Product product;
@@ -19,6 +20,8 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
   int _quantiteSelectionnee = 1;
   @override
   Widget build(BuildContext context) {
+    final favoriteIds = ref.watch(favoriteProvider);
+    final isFavorite = favoriteIds.contains(widget.product.id);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -122,14 +125,17 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          ref
+                              .read(favoriteProvider.notifier)
+                              .toggleFavorite(widget.product.id);
+                        },
                         style: IconButton.styleFrom(
                           backgroundColor: Colors.red.shade50,
                         ),
-                        icon: const Icon(
-                          Icons.favorite_border,
-                          color: Colors.red,
-                        ),
+                        icon: isFavorite
+                            ? Icon(Icons.favorite, color: Colors.red)
+                            : Icon(Icons.favorite_border, color: Colors.red),
                       ),
                     ],
                   ),
@@ -216,7 +222,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                           setState(() {
                             _quantiteSelectionnee++;
                           });
-                        }, heigth: 50, width: 50,
+                        },
+                        heigth: 50,
+                        width: 50,
                       ),
                       Text(
                         _quantiteSelectionnee.toString(),
@@ -233,7 +241,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                               _quantiteSelectionnee--;
                             }
                           });
-                        }, heigth: 50, width: 50,
+                        },
+                        heigth: 50,
+                        width: 50,
                       ),
                     ],
                   ),
