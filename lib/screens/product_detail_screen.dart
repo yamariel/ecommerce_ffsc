@@ -1,10 +1,10 @@
-import 'package:ecommerce_app/screens/cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/product.dart';
 import '../providers/cart_provider.dart';
 import '../widgets/quantity_button.dart';
+import '../screens/cart_screen.dart';
 
 class ProductDetailScreen extends ConsumerStatefulWidget {
   final Product product;
