@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/product.dart';
+import '../providers/cart_provider.dart';
+import '../widgets/quantity_button.dart';
 
-class CartItemCard extends StatelessWidget {
+class CartItemCard extends ConsumerWidget {
   final Product product;
   final VoidCallback onTap;
   final int quantity;
@@ -13,16 +16,13 @@ class CartItemCard extends StatelessWidget {
     required this.product,
     required this.onTap,
     required this.quantity,
-    required this.onDelete
+    required this.onDelete,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Card(
-      margin: const EdgeInsets.symmetric(
-        horizontal: 12,
-        vertical: 6,
-      ),
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       elevation: 2,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -83,23 +83,50 @@ class CartItemCard extends StatelessWidget {
 
                     const SizedBox(height: 8),
 
-                    Text(quantity >=2 ? 'Quantités: $quantity' : 'Quantité: $quantity')
+                    Text(
+                      quantity >= 2
+                          ? 'Quantités: $quantity'
+                          : 'Quantité: $quantity',
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        QuantityButton(
+                          onPressed: () {
+                            ref
+                                .read(cartProvider.notifier)
+                                .updateQuantity(product.id, quantity + 1);
+                          },
+                          icon: Icons.add, heigth: 30, width: 30,
+                        ),
+                        const SizedBox(width: 30),
+                        QuantityButton(
+                          onPressed: () {
+                            ref
+                                .read(cartProvider.notifier)
+                                .updateQuantity(product.id, quantity - 1);
+                          },
+                          icon: Icons.remove, heigth: 30, width: 30,
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
 
-            const SizedBox(width: 8),
+              const SizedBox(width: 8),
 
-            IconButton(
-              onPressed: onDelete, 
-              icon: Icon(Icons.delete, color: Colors.red,)
-            ),
+              Column(
+                children: [
+                  IconButton(
+                    onPressed: onDelete,
+                    icon: Icon(Icons.delete, color: Colors.red, size: 18),
+                  ),
 
-            const SizedBox(height: 10,),
-            const Icon(
-              Icons.chevron_right,
-              color: Colors.grey,
-            )
+                  const SizedBox(height: 10),
+                  const Icon(Icons.chevron_right, color: Colors.grey, size: 28),
+                ],
+              ),
             ],
           ),
         ),
