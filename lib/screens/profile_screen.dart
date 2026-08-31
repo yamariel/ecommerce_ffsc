@@ -10,7 +10,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  // Utilise seulement les champs présents dans le modèle UserProfile (name, photo).
   UserProfile user = const UserProfile(
     name: "Super User",
     photo: "https://i.pravatar.cc/300",
@@ -37,7 +36,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
 
     if (result != null && result.isNotEmpty) {
-      // On recrée un UserProfile (pas de copyWith sur le modèle actuel).
       setState(() {
         user = UserProfile(name: result, photo: user.photo);
       });
@@ -63,12 +61,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             );
           },
           errorBuilder: (context, error, stackTrace) {
-            // Fallback: avatar avec initiales
             return Container(
               color: Colors.deepPurple.shade100,
               child: Center(
-                child: Text(
-                  _initials(user.name),
+                child: Text(user.name,
                   style: TextStyle(fontSize: size * 0.32, fontWeight: FontWeight.bold, color: Colors.deepPurple.shade800),
                 ),
               ),
@@ -77,13 +73,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
-  }
-
-  String _initials(String name) {
-    final parts = name.trim().split(RegExp(r'\s+'));
-    if (parts.isEmpty) return '';
-    if (parts.length == 1) return parts.first.substring(0, 1).toUpperCase();
-    return (parts[0][0] + parts[1][0]).toUpperCase();
   }
 
   @override
@@ -129,17 +118,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 leading: const Icon(Icons.history),
                 title: const Text('Historique des commandes'),
                 trailing: const Icon(Icons.chevron_right),
-                onTap: () {
-                  // TODO: naviguer vers l'écran d'historique des commandes
-                },
+                onTap: () {},
               ),
               ListTile(
                 leading: const Icon(Icons.location_on),
                 title: const Text('Adresses'),
                 trailing: const Icon(Icons.chevron_right),
-                onTap: () {
-                  // TODO: gérer les adresses
-                },
+                onTap: () {},
               ),
             ],
           ),
