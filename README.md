@@ -2,6 +2,12 @@
 
 Une application mobile e-commerce moderne, fluide et réactive développée avec Flutter. Ce projet met particulièrement l'accent sur une architecture propre et une gestion d'état avancée et robuste utilisant **Riverpod**.
 
+## Démonstration vidéo
+
+<video controls width="720" src="./demo_ecommerce_ffsc.mp4">
+    Votre navigateur ne prend pas en charge la lecture vidéo. [Lire la vidéo de démonstration](./demo_ecommerce_ffsc.mp4).
+</video>
+
 ## Fonctionnalités Principales
 
 *   **Catalogue Dynamique :** Affichage en grille des produits avec un système de filtrage par catégorie (ChoiceChips).
