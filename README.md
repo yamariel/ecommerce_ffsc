@@ -4,7 +4,12 @@ Une application mobile e-commerce moderne, fluide et réactive développée avec
 
 ## Démonstration vidéo
 
-[Lire la vidéo de démonstration sur GitHub](https://github.com/yamariel/ecommerce_ffsc/blob/main/demo_ecommerce_ffsc.mp4)
+<video controls width="720">
+    <source src="https://raw.githubusercontent.com/yamariel/ecommerce_ffsc/main/demo_ecommerce_ffsc.mp4" type="video/mp4">
+    [Lire la vidéo de démonstration](https://raw.githubusercontent.com/yamariel/ecommerce_ffsc/main/demo_ecommerce_ffsc.mp4)
+</video>
+
+[Ouvrir la vidéo directement](https://raw.githubusercontent.com/yamariel/ecommerce_ffsc/main/demo_ecommerce_ffsc.mp4)
 
 ## Fonctionnalités Principales
 
